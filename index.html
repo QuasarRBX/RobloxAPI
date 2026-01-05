@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox API</title>
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/10812/10812305.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: {
+                            900: '#0a0a0c',
+                            800: '#121215',
+                            700: '#1c1c21',
+                            600: '#2a2a35',
+                        },
+                        accent: {
+                            DEFAULT: '#7c3aed', 
+                            hover: '#6d28d9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-obsidian-900 text-gray-300 font-sans antialiased selection:bg-accent selection:text-white overflow-hidden h-screen flex flex-col">
+
+    <!-- Web Components -->
+    <custom-header></custom-header>
+
+    <div class="flex flex-1 overflow-hidden relative">
+        <div id="mobile-overlay" class="fixed inset-0 bg-black/80 z-40 hidden md:hidden glass-effect"></div>
+        <main class="flex-1 overflow-y-auto w-full relative scroll-smooth p-4 md:p-10 lg:p-12" id="main-content">
+            
+            <div class="max-w-5xl mx-auto space-y-12">
+
+                <hr class="border-obsidian-700">
+
+                <!-- Cookie Variants -->
+                <section id="cookie-variants">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i data-feather="cookie" class="text-accent"></i> Cookie Variants
+                    </h2>
+                    <div class="grid gap-4">
+                        <div class="bg-obsidian-800 border border-obsidian-700 rounded-lg p-4">
+                            <h4 class="text-white font-mono text-sm">[?] {...} – Random Symbols</h4>
+                        </div>
+                        <div class="space-y-2 pl-4 border-l-2 border-obsidian-600">
+                            <div class="code-snippet text-sm font-mono text-green-400">[?] _|_{...}</div>
+                            <div class="code-snippet text-sm font-mono text-green-400">[?] _||_{...}</div>
+                            <div class="code-snippet text-sm font-mono text-green-400">[?] _|{...}|_{...}</div>
+                        </div>
+                        <div class="bg-obsidian-800/50 border border-obsidian-700 rounded-lg p-4 mt-2">
+                            <span class="text-accent font-bold">Pattern:</span>
+                            <code class="block mt-2 text-pink-400 font-mono">r'_\|(?:_|[^\s\r\n]*?\|_)\S{100,}'</code>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Introduction -->
+                <section id="api-intro">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i data-feather="server" class="text-accent"></i> API Documentation
+                    </h2>
+
+                    <div class="space-y-6">
+                        <!-- Ways to get APIs -->
+                        <div class="bg-obsidian-800 border border-obsidian-700 rounded-xl p-6 shadow-sm">
+                            <h3 class="text-xl font-semibold text-white mb-4">Ways to get the APIs</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-2">
+                                    <i data-feather="cloud" class="text-blue-400 mt-1 w-4 h-4"></i>
+                                    <div><span class="text-white font-medium">Cloud:</span> <a href="https://create.roblox.com/docs/en-us/cloud" target="_blank" class="text-accent hover:underline">create.roblox.com/docs/cloud</a></div>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-feather="shuffle" class="text-blue-400 mt-1 w-4 h-4"></i>
+                                    <div><span class="text-white font-medium">Swagger:</span> <code class="bg-obsidian-900 px-2 py-1 rounded text-sm">accountsettings.roblox.com/docs</code> (change category)</div>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-feather="github" class="text-white mt-1 w-4 h-4"></i>
+                                    <div><a href="https://github.com/matthewdean/roblox-web-apis" target="_blank" class="text-accent hover:underline">GitHub (matthewdean)</a> - categories, links opens in Swagger</div>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-feather="book-open" class="text-blue-400 mt-1 w-4 h-4"></i>
+                                    <div><a href="https://roblox.fandom.com/wiki/List_of_web_APIs" target="_blank" class="text-accent hover:underline">Fandom Wiki</a></div>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-feather="tool" class="text-gray-400 mt-1 w-4 h-4"></i>
+                                    <div><span class="text-white font-medium">DevTools:</span> F12 > Network > Fetch/XHR</div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Enums & Codes Grid -->
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-obsidian-800 border border-obsidian-700 rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold text-white mb-3">Reference</h3>
+                                <a href="https://create.roblox.com/docs/reference/engine/enums" target="_blank" class="text-blue-400 hover:text-white transition-colors flex items-center gap-2">
+                                    View Enums (Asset, Bundle types) <i data-feather="external-link" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                            
+                            <div class="bg-obsidian-800 border border-obsidian-700 rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold text-white mb-3">Methods</h3>
+                                <div class="flex gap-4 text-sm">
+                                    <span class="px-3 py-1 bg-blue-900/30 text-blue-400 border border-blue-800 rounded font-mono">[G] – GET</span>
+                                    <span class="px-3 py-1 bg-green-900/30 text-green-400 border border-green-800 rounded font-mono">[P] – POST</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Response Codes -->
+                        <div class="bg-obsidian-800 border border-obsidian-700 rounded-xl p-6 shadow-sm">
+                            <h3 class="text-lg font-semibold text-white mb-4">Response Codes</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 text-sm font-mono">
+                                <div class="p-3 bg-green-900/10 border border-green-900/50 rounded text-center">
+                                    <div class="text-green-400 text-xl font-bold">200</div>
+                                    <div class="text-gray-400 text-xs mt-1">Valid</div>
+                                </div>
+                                <div class="p-3 bg-yellow-900/10 border border-yellow-900/50 rounded text-center">
+                                    <div class="text-yellow-400 text-xl font-bold">302</div>
+                                    <div class="text-gray-400 text-xs mt-1">Invalid (Redirect)</div>
+                                </div>
+                                <div class="p-3 bg-red-900/10 border border-red-900/50 rounded text-center">
+                                    <div class="text-red-400 text-xl font-bold">401</div>
+                                    <div class="text-gray-400 text-xs mt-1">Invalid</div>
+                                </div>
+                                <div class="p-3 bg-red-900/10 border border-red-900/50 rounded text-center">
+                                    <div class="text-red-400 text-xl font-bold">403</div>
+                                    <div class="text-gray-400 text-xs mt-1">Banned</div>
+                                </div>
+                                <div class="p-3 bg-orange-900/10 border border-orange-900/50 rounded text-center">
+                                    <div class="text-orange-400 text-xl font-bold">429</div>
+                                    <div class="text-gray-400 text-xs mt-1">Rate Limit</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Response Contents -->
+                        <div class="flex flex-wrap gap-4">
+                            <div class="px-4 py-2 bg-obsidian-800 border border-obsidian-600 rounded-full text-sm">
+                                <span class="text-gray-400">[JSON]</span> response.json()
+                            </div>
+                            <div class="px-4 py-2 bg-obsidian-800 border border-obsidian-600 rounded-full text-sm">
+                                <span class="text-gray-400">[HEADERS]</span> response.headers
+                            </div>
+                            <div class="px-4 py-2 bg-obsidian-800 border border-obsidian-600 rounded-full text-sm">
+                                <span class="text-gray-400">[STATUS]</span> response.status
+                            </div>
+                        </div>
+
+                        <!-- Cookie Legend -->
+                        <div class="bg-obsidian-800 border border-obsidian-700 rounded-xl p-6 shadow-sm">
+                            <h3 class="text-lg font-semibold text-white mb-4">Cookie Requirement</h3>
+                            <div class="flex gap-6 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-orange-900 text-orange-200 flex items-center justify-center font-bold">C+</span>
+                                    <span>Yes</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-gray-700 text-gray-300 flex items-center justify-center font-bold">C-</span>
+                                    <span>No</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-purple-900 text-purple-200 flex items-center justify-center font-bold">C=</span>
+                                    <span>Private Profile Only</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Account Endpoints -->
+                <section id="api-account">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2 bg-blue-900/30 rounded-lg text-blue-400"><i data-feather="user"></i></div>
+                        <h2 class="text-2xl font-bold text-white">Account</h2>
+                    </div>
+                    
+                    <div class="bg-obsidian-800 rounded-xl border border-obsidian-700 overflow-hidden">
+                        <div class="p-4 border-b border-obsidian-700 bg-obsidian-700/30">
+                            <code class="text-sm text-gray-400">{UserId} : User ID | without {}</code>
+                        </div>
+                        
+                        <!-- Params Legend -->
+                        <div class="px-6 py-4 border-b border-obsidian-700 bg-obsidian-900/50">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Query Params</h4>
+                            <div class="flex flex-wrap gap-4 text-xs font-mono">
+                                <span class="text-purple-400">[LIM] &limit=</span>
+                                <span class="text-purple-400">[CNT] &count=</span>
+                                <span class="text-purple-400">[CSR] &cursor=</span>
+                                <span class="text-purple-400">[NSR] &nextCursor=</span>
+                                <span class="text-purple-400">[ESI] &exclusiveStartId=</span>
+                            </div>
+                        </div>
+
+                        <div class="divide-y divide-obsidian-700">
+                            <!-- Endpoint Item -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors group">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Valid Status</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all mb-2 flex items-center gap-2">
+                                    <i data-feather="link" class="w-3 h-3 text-gray-600"></i>
+                                    https://users.roblox.com/v1/users/authenticated
+                                </div>
+                                <div class="text-xs text-gray-500">Returns: [STATUS]</div>
+                            </div>
+
+                            <!-- Endpoint Item -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors group">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Banned Check</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all mb-2 flex items-center gap-2">
+                                    <i data-feather="link" class="w-3 h-3 text-gray-600"></i>
+                                    https://usermoderation.roblox.com/v1/not-approved
+                                </div>
+                                <div class="text-xs text-gray-500">Returns: [JSON]</div>
+                            </div>
+
+                            <!-- Endpoint Item with Details -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors group">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Account Information</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all mb-3 flex items-center gap-2">
+                                    <i data-feather="link" class="w-3 h-3 text-gray-600"></i>
+                                    https://www.roblox.com/my/settings/json
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-obsidian-900 p-3 rounded text-xs font-mono text-gray-500">
+                                    <div>['UserId']</div>
+                                    <div>['Name']</div>
+                                    <div>['DisplayName']</div>
+                                    <div>['AccountAgeInDays']</div>
+                                    <div>['IsPremium']</div>
+                                    <div>['CanTrade']</div>
+                                    <div>['MyAccountSecurityModel']['IsEmailSet']</div>
+                                    <div>['MyAccountSecurityModel']['IsEmailVerified']</div>
+                                    <div>['MyAccountSecurityModel']['IsTwoStepEnabled']</div>
+                                    <div>['IsAccountPinEnabled']</div>
+                                    <div>['UserAbove13']</div>
+                                </div>
+                            </div>
+
+                            <!-- Profile Info -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-900/50 text-green-400 border border-green-800">P</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Profile Information</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/profile-platform-api/v1/profiles/get</div>
+                            </div>
+
+                            <!-- Robux -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Robux</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://economy.roblox.com/v1/users/{UserId}/currency</div>
+                                <div class="text-xs text-gray-500 mt-1">Returns: [JSON]['robux']</div>
+                            </div>
+
+                            <!-- Billing -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Billing</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://billing.roblox.com/v1/credit</div>
+                                <div class="text-xs text-gray-500 mt-1">Returns: [JSON]['robuxAmount']</div>
+                            </div>
+
+                             <!-- Transactions Year -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Transactions For Year</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://economy.roblox.com/v2/users/{UserId}/transaction-totals?timeFrame=Year&transactionType=summary</div>
+                                <div class="text-xs text-gray-500 mt-1">['pendingRobuxTotal'], ['outgoingRobuxTotal']</div>
+                            </div>
+
+                             <!-- Transactions All -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">LIM</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">CSR</span>
+                                    <span class="text-white font-medium">Transactions For All Time</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://economy.roblox.com/v2/users/{UserId}/transactions?transactionType=2</div>
+                                <div class="text-xs text-gray-500 mt-1">['currency']['amount'] for item in [JSON]['data']</div>
+                            </div>
+                            
+                             <!-- RAP -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">C=</span>
+                                    <span class="text-white font-medium">Rap (Recent Average Price)</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://inventory.roblox.com/v1/users/{UserId}/assets/collectibles</div>
+                                <div class="text-xs text-gray-500 mt-1">['recentAveragePrice'] for item in [JSON]['data']</div>
+                            </div>
+
+                            <!-- Cards -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Cards</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/payments-gateway/v1/payment-profiles</div>
+                                <div class="text-xs text-gray-500 mt-1">Returns: len([JSON])</div>
+                            </div>
+
+                            <!-- Gamepasses -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">C=</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">CNT</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">ESI</span>
+                                    <span class="text-white font-medium">Gamepasses</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/game-passes/v1/users/{UserId}/game-passes</div>
+                                <div class="text-xs text-gray-500 mt-1">['name'], ['gamePassId'] for item in [JSON]['gamePasses']</div>
+                            </div>
+
+                             <!-- Badges -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">C=</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">LIM</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">CSR</span>
+                                    <span class="text-white font-medium">Badges</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://badges.roblox.com/v1/users/{UserId}/badges</div>
+                                <div class="text-xs text-gray-500 mt-1">['name'], ['id'] for item in [JSON]['data']</div>
+                            </div>
+
+                            <!-- Badges Faster -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">C=</span>
+                                    <span class="text-white font-medium">Badges (Faster)</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://badges.roblox.com/v1/users/{UserId}/badges/awarded-dates?badgeIds=</div>
+                                <div class="text-xs text-gray-500 mt-1">['id'] for item in [JSON]['data']</div>
+                            </div>
+
+                            <!-- Favorite Places -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">LIM</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">CSR</span>
+                                    <span class="text-white font-medium">Favorite Places</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://games.roblox.com/v2/users/{UserId}/favorite/games</div>
+                                <div class="text-xs text-gray-500 mt-1">['name'], ['rootPlace']['id'] for item in [JSON]['data']</div>
+                            </div>
+
+                            <!-- Places Weekly Playtime -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Places Weekly Playtime</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/parental-controls-api/v1/parental-controls/get-top-weekly-screentime-by-universe</div>
+                            </div>
+
+                            <!-- Bundles -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">C=</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">LIM</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">CSR</span>
+                                    <span class="text-white font-medium">Bundles</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://catalog.roblox.com/v1/users/{UserId}/bundles/1</div>
+                                <div class="text-xs text-gray-500 mt-1">['name'], ['id'] for item in [JSON]['data']</div>
+                            </div>
+
+                            <!-- Groups -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="text-white font-medium">Groups</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://groups.roblox.com/v1/users/{UserId}/groups/roles?includeLocked=true</div>
+                                <div class="text-xs text-gray-500 mt-1">['role']['rank'], ['group']['id'] for item in [JSON]['data']</div>
+                            </div>
+
+                            <!-- Inventory Privacy -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Inventory Privacy</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/user-settings-api/v1/user-settings/settings-and-options</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['whoCanSeeMyInventory']['currentValue']</div>
+                            </div>
+
+                            <!-- Trade Privacy -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Trade Privacy</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://accountsettings.roblox.com/v1/trade-privacy</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['tradePrivacy']</div>
+                            </div>
+
+                            <!-- Sessions -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">NSR</span>
+                                    <span class="text-white font-medium">Sessions</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/token-metadata-service/v1/sessions</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['sessions']</div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Phone</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://accountinformation.roblox.com/v1/phone</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['phone']</div>
+                            </div>
+
+                             <!-- Age Group -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Age Group</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/user-settings-api/v1/account-insights/age-group</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['ageGroupTranslationKey']</div>
+                                <div class="mt-2 text-xs font-mono text-gray-500">
+                                    13-: Label.AgeBandUnder13 <br>
+                                    13+: Label.AgeBandOver13 <br>
+                                    18-: Label.AgeBandUnder18 <br>
+                                    18+: Label.AgeBandOver18
+                                </div>
+                            </div>
+
+                             <!-- Verified Age -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Verified Age</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/age-verification-service/v1/age-verification/verified-age</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['isVerified']</div>
+                            </div>
+
+                            <!-- Verified Voice -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Verified Voice</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://voice.roblox.com/v1/settings</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['isVerifiedForVoice']</div>
+                            </div>
+
+                             <!-- Friends Count -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="text-white font-medium">Friends Count</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://friends.roblox.com/v1/users/{UserId}/friends/count</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['count']</div>
+                            </div>
+
+                            <!-- Followers Count -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="text-white font-medium">Followers Count</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://friends.roblox.com/v1/users/{UserId}/followers/count</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['count']</div>
+                            </div>
+
+                            <!-- Followings Count -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="text-white font-medium">Followings Count</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://friends.roblox.com/v1/users/{UserId}/followings/count</div>
+                                <div class="text-xs text-gray-500 mt-1">[JSON]['count']</div>
+                            </div>
+
+                             <!-- Roblox Badges -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="text-white font-medium">Roblox Badges</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://accountinformation.roblox.com/v1/users/{UserId}/roblox-badges</div>
+                                <div class="text-xs text-gray-500 mt-1">['name'] for item in [JSON]</div>
+                            </div>
+
+                             <!-- Check Reged Usernames -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-900/50 text-green-400 border border-green-800">P</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="text-white font-medium">Check Reged Usernames</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://users.roblox.com/v1/usernames/users</div>
+                                <div class="text-xs text-gray-500 mt-1">['requestedUsername'] for item in [JSON]['data']</div>
+                            </div>
+
+                             <!-- X-CSRF-Token -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-900/50 text-green-400 border border-green-800">P</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">X-CSRF-Token</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://auth.roblox.com/v2/logout</div>
+                                <div class="text-xs text-gray-500 mt-1">[HEADERS]['X-CSRF-Token']</div>
+                            </div>
+
+                             <!-- Authentication Ticket -->
+                             <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-900/50 text-green-400 border border-green-800">P</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                    <span class="text-white font-medium">Authentication Ticket</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://auth.roblox.com/v1/authentication-ticket</div>
+                                <div class="text-xs text-gray-500 mt-1">[HEADERS]['rbx-authentication-ticket']</div>
+                            </div>
+
+                            <!-- Set Cookie -->
+                            <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                                <div class="flex flex-wrap items-center gap-3 mb-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-900/50 text-green-400 border border-green-800">P</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                    <span class="text-white font-medium">Set Cookie</span>
+                                </div>
+                                <div class="font-mono text-sm text-gray-400 break-all">https://auth.roblox.com/v1/authentication-ticket/redeem</div>
+                                <div class="text-xs text-gray-500 mt-1">[HEADERS]['Set-Cookie'] (first one might be empty, get second)</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Group Endpoints -->
+                <section id="api-group">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2 bg-purple-900/30 rounded-lg text-purple-400"><i data-feather="users"></i></div>
+                        <h2 class="text-2xl font-bold text-white">Group</h2>
+                    </div>
+                    <div class="text-sm text-gray-500 mb-4 font-mono bg-obsidian-800 p-2 rounded inline-block">{GroupId} : Group ID | without {}</div>
+
+                    <div class="bg-obsidian-800 rounded-xl border border-obsidian-700 divide-y divide-obsidian-700">
+                        <!-- Group Pending -->
+                        <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                            <div class="flex flex-wrap items-center gap-3 mb-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                <span class="text-white font-medium">Group Pending For Year</span>
+                            </div>
+                            <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/transaction-records/v1/groups/{GroupId}/revenue/summary/year</div>
+                            <div class="text-xs text-gray-500 mt-1">[JSON]['pendingRobux']</div>
+                        </div>
+
+                        <!-- Group Funds -->
+                        <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                            <div class="flex flex-wrap items-center gap-3 mb-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-900/50 text-orange-400 border border-orange-800">C+</span>
+                                <span class="text-white font-medium">Group Funds</span>
+                            </div>
+                            <div class="font-mono text-sm text-gray-400 break-all">https://economy.roblox.com/v1/groups/{GroupId}/currency</div>
+                            <div class="text-xs text-gray-500 mt-1">[JSON]['robux']</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Place Endpoints -->
+                <section id="api-place">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2 bg-green-900/30 rounded-lg text-green-400"><i data-feather="map"></i></div>
+                        <h2 class="text-2xl font-bold text-white">Place</h2>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-obsidian-800 p-3 rounded border border-obsidian-700 text-sm font-mono text-gray-400">{PlaceId} : Place ID ‾\/‾ without {}</div>
+                        <div class="bg-obsidian-800 p-3 rounded border border-obsidian-700 text-sm font-mono text-gray-400">{UniverseId} : Universe ID _/</div>
+                    </div>
+
+                    <div class="bg-obsidian-800 rounded-xl border border-obsidian-700 p-4 mb-6">
+                         <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Query Params</h4>
+                        <div class="flex flex-wrap gap-4 text-xs font-mono">
+                            <span class="text-purple-400">[UIS] ?universeIds=</span>
+                            <span class="text-purple-400">[LIM] &limit=</span>
+                            <span class="text-purple-400">[PGS] &pageSize=</span>
+                            <span class="text-purple-400">[PGT] &pageToken=</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-obsidian-800 rounded-xl border border-obsidian-700 divide-y divide-obsidian-700">
+                        <!-- Universe ID -->
+                        <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                            <div class="flex flex-wrap items-center gap-3 mb-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                <span class="text-white font-medium">Universe ID</span>
+                            </div>
+                            <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/universes/v1/places/{PlaceId}/universe</div>
+                            <div class="text-xs text-gray-500 mt-1">['universeId'] in [JSON]</div>
+                        </div>
+
+                        <!-- Place Info -->
+                        <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                            <div class="flex flex-wrap items-center gap-3 mb-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">UIS</span>
+                                <span class="text-white font-medium">Place Information</span>
+                            </div>
+                            <div class="font-mono text-sm text-gray-400 break-all">https://games.roblox.com/v1/games</div>
+                            <div class="text-xs text-gray-500 mt-1">['name'] in [JSON]['data']</div>
+                        </div>
+
+                        <!-- Gamepasses -->
+                        <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                            <div class="flex flex-wrap items-center gap-3 mb-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">PGS</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">PGT</span>
+                                <span class="text-white font-medium">Gamepasses</span>
+                            </div>
+                            <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/game-passes/v1/universes/{UniverseId}/game-passes</div>
+                            <div class="text-xs text-gray-500 mt-1">['name'], ['id'] in [JSON]['gamePasses']</div>
+                        </div>
+
+                         <!-- Badges -->
+                         <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                            <div class="flex flex-wrap items-center gap-3 mb-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">LIM</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">CSR</span>
+                                <span class="text-white font-medium">Badges</span>
+                            </div>
+                            <div class="font-mono text-sm text-gray-400 break-all">https://badges.roblox.com/v1/universes/{UniverseId}/badges</div>
+                            <div class="text-xs text-gray-500 mt-1">['name'], ['id'] in [JSON]['data']</div>
+                        </div>
+
+                         <!-- Products -->
+                         <div class="p-5 hover:bg-obsidian-700/50 transition-colors">
+                            <div class="flex flex-wrap items-center gap-3 mb-2">
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-900/50 text-blue-400 border border-blue-800">G</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-gray-700/50 text-gray-400 border border-gray-600">C-</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">LIM</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-900/50 text-purple-400 border border-purple-800">LIM</span>
+                                <span class="text-white font-medium">Products</span>
+                            </div>
+                            <div class="font-mono text-sm text-gray-400 break-all">https://apis.roblox.com/experience-store/v1/universes/{UniverseId}/store</div>
+                            <div class="text-xs text-gray-500 mt-1">['Name'], ['ProductId'] in [JSON]['developerProducts']</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="components/header.js"></script>
+    <script src="components/sidebar.js"></script>
+    <script src="script.js"></script>
+    <script>feather.replace();</script>
+</body>
+</html>
