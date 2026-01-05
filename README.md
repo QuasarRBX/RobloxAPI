@@ -1,8 +1,8 @@
-# 📚 Roblox Web API Reference
+# Roblox Web API Reference
 
 A comprehensive reference guide for Roblox web APIs, including endpoints, parameters, and response formats for account, group, and place information retrieval.
 
-## 📋 Contents
+## Contents
 
 - [Authentication](#authentication)
 - [API Discovery](#api-discovery)
@@ -12,7 +12,7 @@ A comprehensive reference guide for Roblox web APIs, including endpoints, parame
 - [Place Endpoints](#place-endpoints)
 - [Utilities](#utilities)
 
-## 🔐 Authentication
+## Authentication
 
 ### Cookie Formats
 Roblox authentication cookies follow specific patterns:
@@ -27,7 +27,7 @@ Variants:
     _|{...}|_{...}
 ```
 
-## 🌐 API Discovery
+## API Discovery
 
 ### Finding APIs
 Several methods exist for discovering Roblox API endpoints:
@@ -50,7 +50,7 @@ Several methods exist for discovering Roblox API endpoints:
 For type definitions (asset, bundle, etc.):  
 `https://create.roblox.com/docs/reference/engine/enums`
 
-## 📊 Response Handling
+## Response Handling
 
 ### HTTP Methods
 - `[G]` – GET
@@ -76,7 +76,7 @@ For type definitions (asset, bundle, etc.):
 - `[C-]` – No cookie required
 - `[C=]` – Cookie required only if profile is Private
 
-## 👤 Account Endpoints
+## Account Endpoints
 
 ### Placeholders
 - `{UserId}` – User ID (without braces)
@@ -165,7 +165,7 @@ For type definitions (asset, bundle, etc.):
 - `Label.AgeBandUnder18` – Under 18
 - `Label.AgeBandOver18` – Over 18
 
-## 🏢 Group Endpoints
+## Group Endpoints
 
 ### Placeholders
 - `{GroupId}` – Group ID (without braces)
@@ -176,7 +176,7 @@ For type definitions (asset, bundle, etc.):
 | GET | C+ | Pending yearly revenue | `https://apis.roblox.com/transaction-records/v1/groups/{GroupId}/revenue/summary/year` | `['pendingRobux']` |
 | GET | C+ | Group funds | `https://economy.roblox.com/v1/groups/{GroupId}/currency` | `['robux']` |
 
-## 🎮 Place/Universe Endpoints
+## Place/Universe Endpoints
 
 ### Placeholders
 - `{PlaceId}` – Place ID
@@ -214,4 +214,4 @@ For type definitions (asset, bundle, etc.):
 
 ---
 
-**Note**: This reference is based on publicly available Roblox APIs. Endpoints may change without notice. Always refer to official documentation for the most current information.
+
